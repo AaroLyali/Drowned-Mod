@@ -367,14 +367,14 @@ namespace DrownedMod
 			string expert;
 			string HardMode;
 			
-			if (Main.expertMode = true)
+			if (Main.expertMode)
 			{
 				expert = "Expert";
 			} else {
 				expert = "Normal";
 			}
 			
-			if  (Main.hardMode = true)
+			if  (Main.hardMode)
 			{
 				HardMode = "Hardmode";
 			} else {
