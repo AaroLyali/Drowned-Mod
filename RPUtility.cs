@@ -34,6 +34,10 @@ namespace DrownedMod
 		public static Player player;
 		public static bool dead = false;
 
+		public static string expert;
+		public static string HardMode;
+
+
 		/*boss type
         50             King Slime
         4              EoC
@@ -362,10 +366,6 @@ namespace DrownedMod
 			def = player.statDefense;
 			minions = player.slotsMinions;
 			minionsM = player.maxMinions;
-			
-			
-			string expert;
-			string HardMode;
 			
 			if (Main.expertMode)
 			{
