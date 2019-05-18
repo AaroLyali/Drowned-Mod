@@ -287,7 +287,7 @@ namespace DrownedMod
 			} else {
 				RPControl.presence.largeImageKey = string.Format("drowned_" + "honey");
 			}
-				RPControl.presence.largeImageText = string.Format(startup.flood + " World");
+				//RPControl.presence.largeImageText = string.Format(startup.flood + " World");
 		}
 
 		public static void GetBoss()

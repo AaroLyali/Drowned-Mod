@@ -32,7 +32,7 @@ namespace DrownedMod
 {
     public static class Drowned_Config
     {
-		public static string Initail_Flood = "yes";
+		public static string Initial_Flood = "yes";
 		public static string FFT = "no";
 		public static string FFL = "no";
 		public static string FFR = "no";
@@ -70,12 +70,12 @@ namespace DrownedMod
 			{
 				Configuration.Clear();
 				
-				Configuration.Put("Should the world flood upon creation yes/no.", "");
-				Configuration.Put("Enables or disables the inital flood (for if your world is already drowned) (You do not need to change this to prevent your world from flooding twice).", "");
-				Configuration.Put("Initail Flood", Initail_Flood);
+				Configuration.Put("Should the world flood upon creation yes/no.", Initial_Flood);
+				//Configuration.Put("Enables or disables the inital flood (for if your world is already drowned) (You do not need to change this to prevent your world from flooding twice).", "");
+				//Configuration.Put("Initial Flood", );
 				
-				Configuration.Put("", "");
-				Configuration.Put(" ", "");
+				//Configuration.Put("", "");
+				//Configuration.Put(" ", "");
 				/*
 				Configuration.Put("Should the game flood the world from the specified area yes/no.", "These might cause lag. Or mabey they just won't work.");
 				Configuration.Put("Flood From Top of the world", FFT);
@@ -86,11 +86,11 @@ namespace DrownedMod
 				Configuration.Put("", "");
 				Configuration.Put("", "");
 				*/
-				Configuration.Put("Fluid to fill the world with (Water/Honey/Lava) (This should be a word not a number.", "");
-				Configuration.Put("1=Water, 2=Honey, 3=Lava", "");
-				Configuration.Put("Fluid", type);
-				Configuration.Put("  ", "");
-				Configuration.Put("   ", "");
+				Configuration.Put("Fluid to fill the world with (Water/Honey/Lava)", type);
+				//Configuration.Put("Water, Honey, Lava", "");
+				//Configuration.Put("Fluid", type);
+				//Configuration.Put("  ", "");
+				//Configuration.Put("   ", "");
 				
 				//Configuration.Put("Large, Medium or Small.", "");
 				//Configuration.Put("World size", worldSize);
@@ -98,8 +98,8 @@ namespace DrownedMod
 				//Configuration.Put("", "");
 				//Configuration.Put("", "");
 				
-				Configuration.Put("DO NOT TOUCH", "!!!!");
-				Configuration.Put("Version", "1.1.1.3");
+				//Configuration.Put("DO NOT TOUCH", "!!!!");
+				Configuration.Put("Version", "1.1.2.3");
 				
 				Configuration.Save();
 			}
@@ -110,7 +110,7 @@ namespace DrownedMod
 		{
 			if(Configuration.Load())
 			{
-				Configuration.Get<string>("Initail Flood", ref Initail_Flood);
+				Configuration.Get<string>("Initail Flood", ref Initial_Flood);
 				Configuration.Get<string>("Flood From Top of the world", ref FFT);
 				Configuration.Get<string>("Flood From Left of the world", ref FFL);
 				Configuration.Get<string>("Flood From Right of the world", ref FFR);
@@ -134,12 +134,13 @@ namespace DrownedMod
 			//	ID = 2;
 			//}
 			
-			if (vers == "1.1.1.3")
+			if (vers == "1.1.2.3")
 			{
 				return true;
-			} else {
+			} else
+			{
+				CreateConfig();
 				return false;
-                CreateConfig();
 			}
 		}
 	}

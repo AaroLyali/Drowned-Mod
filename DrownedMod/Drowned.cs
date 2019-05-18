@@ -29,7 +29,7 @@ using Terraria.GameContent.Generation;
 
 namespace DrownedMod
 {
-	public class startup: ModWorld
+	public class Startup : ModWorld
 	{
 		public int right;
 		public int bubble;
@@ -65,7 +65,29 @@ namespace DrownedMod
 			{
 				for (int x = 2; x <= right; x++)
 				{
+					RemoveRails(x, y);
 					FillATile(Drowned_Config.ID, x, y);
+				}
+			}
+			for (int y = 2; y < bubble; y++)
+			{
+				for (int x = 2; x <= right; x++)
+				{
+					switch (Drowned_Config.ID)
+					{
+						case 0:
+							LiquidInteraction(0, 1, 56, x, y);
+							LiquidInteraction(0, 2, 229, x, y);
+							break;
+						case 1:
+							LiquidInteraction(1, 0, 56, x, y);
+							LiquidInteraction(1, 2, 230, x, y);
+							break;
+						case 2:
+							LiquidInteraction(2, 0, 229, x, y);
+							LiquidInteraction(2, 1, 230, x, y);
+							break;
+					}
 				}
 			}
 			for (int x = 2; x <= right; x++)
@@ -74,9 +96,10 @@ namespace DrownedMod
 				{
 					WorldGen.PlaceTile(x, bubble, 379);
 				}
-				else if (Main.tile[x, bubble].liquid > 0 || Main.tile[x, bubble].active())
+				if (Main.tile[x, bubble].liquid > 0 || Main.tile[x, bubble].active())
 				{
 					Main.tile[x, bubble].ClearEverything();
+					Main.tile[x, bubble].liquid = 0;
 					WorldGen.PlaceTile(x, bubble, 379);
 				}
 			}
@@ -93,12 +116,137 @@ namespace DrownedMod
 					WorldGen.SquareTileFrame(x, y, false);
 					return;
 				}
-			} else if (!IsTileSolid(x, y))
+			}
+			else if (!IsTileSolid(x, y))
 			{
 				Main.tile[x, y].liquidType(fluidID);
 				Main.tile[x, y].liquid = 255;
 				WorldGen.SquareTileFrame(x, y, false);
 				return;
+			}
+			else if (!Main.tile[x, y].active())
+			{
+				Main.tile[x, y].liquidType(fluidID);
+				Main.tile[x, y].liquid = 255;
+				WorldGen.SquareTileFrame(x, y, false);
+				return;
+			}
+			else if (Main.tile[x, y].type == 19) 
+			{
+				Main.tile[x, y].liquidType(fluidID);
+				Main.tile[x, y].liquid = 255;
+				return;
+			}
+		}
+
+		public void RemoveRails(int x, int y)
+		{
+			if (Main.tile[x, y].type == 314)
+			{
+				//Main.tile[x, y].ClearTile();
+				if (Main.tile[x, y + 1].liquid > 0)
+				{
+					Main.tile[x, y].liquidType(Main.tile[x, y + 1].liquidType());
+					Main.tile[x, y].liquid = 255;
+				}
+				if (Main.tile[x + 1, y].liquid > 0)
+				{
+					Main.tile[x, y].liquidType(Main.tile[x + 1, y].liquidType());
+					Main.tile[x, y].liquid = 255;
+				}
+				if (Main.tile[x - 1, y].liquid > 0)
+				{
+					Main.tile[x, y].liquidType(Main.tile[x - 1, y].liquidType());
+					Main.tile[x, y].liquid = 255;
+				}
+				if (Main.tile[x, y - 1].liquid > 0)
+				{
+					Main.tile[x, y].liquidType(Main.tile[x, y - 1].liquidType());
+					Main.tile[x, y].liquid = 255;
+				}
+			}
+		}
+
+		public void LiquidInteraction(int fluidID, int oppositeFluid, int interactionBlock, int x, int y)
+		{
+			if (Main.tile[x, y].liquidType() == oppositeFluid) 
+			{
+				if 
+				(
+					Main.tile[x, y - 1].liquidType() == fluidID &&
+					Main.tile[x, y - 1].liquid > 0
+				)
+				{
+					if (Main.tile[x, y].type == 314)
+					{
+						Main.tile[x, y - 1].liquid = 0;
+						Main.tile[x, y - 1].ClearTile();
+						WorldGen.PlaceTile(x, y - 1, interactionBlock);
+					}
+					else
+					{
+						Main.tile[x, y].liquid = 0;
+						Main.tile[x, y].ClearTile();
+						WorldGen.PlaceTile(x, y, interactionBlock);
+					}
+				}
+				if
+				(
+					Main.tile[x - 1, y].liquidType() == fluidID &&
+					Main.tile[x - 1, y].liquid > 0
+				)
+				{
+					if (Main.tile[x, y].type == 314)
+					{
+						Main.tile[x - 1, y].liquid = 0;
+						Main.tile[x - 1, y].ClearTile();
+						WorldGen.PlaceTile(x - 1, y, interactionBlock);
+					}
+					else
+					{
+						Main.tile[x, y].liquid = 0;
+						Main.tile[x, y].ClearTile();
+						WorldGen.PlaceTile(x, y, interactionBlock);
+					}
+				}
+				if
+				(
+					Main.tile[x + 1, y].liquidType() == fluidID &&
+					Main.tile[x + 1, y].liquid > 0
+				)
+				{
+					if (Main.tile[x, y].type == 314)
+					{
+						Main.tile[x + 1, y].liquid = 0;
+						Main.tile[x + 1, y].ClearTile();
+						WorldGen.PlaceTile(x + 1, y, interactionBlock);
+					}
+					else
+					{
+						Main.tile[x, y].liquid = 0;
+						Main.tile[x, y].ClearTile();
+						WorldGen.PlaceTile(x, y, interactionBlock);
+					}
+				}
+				if
+				(
+					Main.tile[x, y + 1].liquidType() == fluidID &&
+					Main.tile[x, y + 1].liquid > 0
+				)
+				{
+					if (Main.tile[x, y].type == 314)
+					{
+						Main.tile[x, y + 1].liquid = 0;
+						Main.tile[x, y + 1].ClearTile();
+						WorldGen.PlaceTile(x, y + 1, interactionBlock);
+					}
+					else
+					{
+						Main.tile[x, y].liquid = 0;
+						Main.tile[x, y].ClearTile();
+						WorldGen.PlaceTile(x, y, interactionBlock);
+					}
+				}
 			}
 		}
 	}
