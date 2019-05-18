@@ -65,7 +65,7 @@ namespace DrownedMod
 			{
 				for (int x = 2; x <= right; x++)
 				{
-					RemoveRails(x, y);
+					FixRails(x, y);
 					FillATile(Drowned_Config.ID, x, y);
 				}
 			}
@@ -139,7 +139,7 @@ namespace DrownedMod
 			}
 		}
 
-		public void RemoveRails(int x, int y)
+		public void FixRails(int x, int y)
 		{
 			if (Main.tile[x, y].type == 314)
 			{
